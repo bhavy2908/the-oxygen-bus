@@ -1,0 +1,98 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.hbtn {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-block;
+  overflow: hidden;
+  padding: 8px 20px;
+  margin: 0px 3px 6px;
+  text-align: center;
+  border: 2px solid #00a200;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  white-space: nowrap;
+  z-index: 0;
+}
+
+.hbtn i {
+  padding-right: 8px;
+}
+
+.hb-fill-middle2-bg::before {
+  position: absolute;
+  content: "";
+  background: #00a200;
+  transition-duration: 0.3s;
+  z-index: -1;
+  inset: 0px 0px auto auto;
+  width: 0px;
+  height: 100%;
+  opacity: 1;
+}
+
+.hb-fill-middle2-bg:hover::before {
+  width: 50%;
+  height: 100%;
+  opacity: 1;
+}
+
+.hb-fill-middle2-bg {
+  background: transparent;
+  color: #00a200;
+  transition: all 0.3s ease 0s;
+}
+
+.hb-fill-middle2-bg:hover {
+  color: white;
+  background: #00a200;
+  transition: all 0.3s ease 0s;
+}
+
+.hb-fill-middle2-bg::after {
+  position: absolute;
+  content: "";
+  background: #00a200;
+  transition-duration: 0.3s;
+  z-index: -1;
+  inset: 0px auto auto 0px;
+  width: 0px;
+  height: 100%;
+  opacity: 1;
+}
+
+.hb-fill-middle2-bg:hover::after {
+  width: 50%;
+}
+
+.value-box {
+  width: 90%;
+  margin-top: 25px;
+  background-color: white;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  color: black;
+  text-align: center;
+  padding-top: 5px;
+  font-weight: bold;
+  margin-bottom: -10px;
+}
+
+.value {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -10px;
+  color: #00a200;
+  font-size: 50px;
+}
