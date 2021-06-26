@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, Marker, GoogleApiWrapper, Polyline, P} from 'google-maps-react';
+import { Map, Marker, GoogleApiWrapper, Polyline, } from 'google-maps-react';
 
 
 export class MapContainer extends Component {
@@ -27,6 +27,30 @@ export class MapContainer extends Component {
 
         }
     };
+    distance = (lat1, lat2, lon1, lon2) => {
+        lon1 = lon1 * Math.PI / 180;
+        lon2 = lon2 * Math.PI / 180;
+        lat1 = lat1 * Math.PI / 180;
+        lat2 = lat2 * Math.PI / 180;
+
+        let dlon = lon2 - lon1;
+        let dlat = lat2 - lat1;
+        let a = Math.pow(Math.sin(dlat / 2), 2)
+            + Math.cos(lat1) * Math.cos(lat2)
+            * Math.pow(Math.sin(dlon / 2), 2);
+
+        let c = 2 * Math.asin(Math.sqrt(a));
+        let r = 6371;
+
+        return (c * r);
+    };
+    TotalDis = (list) => {
+        var distn = 0;
+        for (let i =0; i<this.props.z; i++){
+            distn += this.distance(list[i].lat, list[i+1].lat, list[i].lng, list[i+1].lng);
+            return distn 
+        } 
+    };
 
 
 
@@ -47,19 +71,26 @@ export class MapContainer extends Component {
         for (let i = 0; i < this.props.y; i++) {
             Omarks[i] = temp2[i];
         }
-        for (let i = 1; i < this.props.z - this.props.y+1; i++) {
+        for (let i = 1; i < this.props.z - this.props.y + 1; i++) {
             result[i] = Hmarks[i - 1];
-            
+
         }
         var j = this.props.z - this.props.y
         console.log(j)
         for (let k = 0; k < this.props.z - this.props.x; k++) {
-            result[j+1] = Omarks[k]
+            result[j + 1] = Omarks[k]
             j++;
         }
-        if (result[1  ]) {
-            result[this.props.z + 1] = temp3[0]
+        if (result[2]) {
+            console.log(this.TotalDis(result))
         }
+               
+
+        if (result[1]) {
+            result[this.props.z + 1] = temp3[0]
+            
+        }
+
         return (
             <Map google={this.props.google}
                 onClick={this.onMapClicked}
