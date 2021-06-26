@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, Marker, GoogleApiWrapper, Polyline, P} from 'google-maps-react';
 
 
 export class MapContainer extends Component {
@@ -7,7 +7,7 @@ export class MapContainer extends Component {
         showingInfoWindow: false,
         activeMarker: {},
         selectedPlace: {},
-        mapCenter: { lat: 28.51935074870835, lng: 77.36524524013548 },
+        mapCenter: { lat: 28.669, lng: 77.2090 },
     };
 
     onMarkerClick = (props, marker, e) =>
@@ -15,6 +15,7 @@ export class MapContainer extends Component {
             selectedPlace: props,
             activeMarker: marker,
             showingInfoWindow: true
+
         });
 
     onMapClicked = (props) => {
@@ -23,32 +24,77 @@ export class MapContainer extends Component {
                 showingInfoWindow: false,
                 activeMarker: null
             })
+
         }
     };
 
+
+
     render() {
+
+
+
+
+        const temp = [{ lat: 28.649319, lng: 77.169316 }, { lat: 28.642295, lng: 77.27436 }, { lat: 28.654441, lng: 77.26142 }, { lat: 28.655337, lng: 77.160324 }, { lat: 28.705645, lng: 77.190577 }, { lat: 28.704892, lng: 77.20897 }, { lat: 28.616247, lng: 77.187487 }, { lat: 28.654564, lng: 77.23567 }, { lat: 28.606, lng: 77.2098 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }]
+        const Hmarks = [{}]
+        const Omarks = [{}]
+        const temp2 = [{ lat: 28.660702, lng: 77.161045 }, { lat: 28.653164, lng: 77.229715 }, { lat: 28.659798, lng: 77.246143 }, { lat: 28.681354, lng: 77.248203 }, { lat: 28.632655, lng: 77.253817 }, { lat: 28.65, lng: 77.3 }, { lat: 28.6978, lng: 77.2 }, { lat: 28.62134, lng: 77.2098 }, { lat: 28.6333, lng: 77.3333 }, { lat: 28.6969, lng: 77.1 }, { lat: 28.725, lng: 77.32 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 },]
+        const result = [{ lat: 28.619319, lng: 77.100216 }]
+        const temp3 = [{ lat: 28.717, lng: 77.32 }]
+        for (let i = 0; i < this.props.x; i++) {
+            Hmarks[i] = temp[i];
+        }
+        for (let i = 0; i < this.props.y; i++) {
+            Omarks[i] = temp2[i];
+        }
+        for (let i = 1; i < this.props.z - this.props.y+1; i++) {
+            result[i] = Hmarks[i - 1];
+            
+        }
+        var j = this.props.z - this.props.y
+        console.log(j)
+        for (let k = 0; k < this.props.z - this.props.x; k++) {
+            result[j+1] = Omarks[k]
+            j++;
+        }
+        if (result[1  ]) {
+            result[this.props.z + 1] = temp3[0]
+        }
         return (
-
-
-
             <Map google={this.props.google}
                 onClick={this.onMapClicked}
                 initialCenter={{ lat: this.state.mapCenter, lng: this.state.mapCenter }}
-                zoomLevel={2}
-                onClick
+                zoom={13}
                 style={{ width: '79.75%', height: '90vh' }}
-
-
             >
-
-                <Marker onClick={this.onMarkerClick} position={this.state.mapCenter}
-                    name={'location 1'} num6 />
-                <Marker position={{ lat: 28.6304714220619, lng: 77.37215398332658 }}
+                <Marker position={{ lat: 28.619319, lng: 77.100216 }}
                     onClick={this.onMarkerClick}
+                    icon={{ url: "http://maps.google.com/mapfiles/ms/micons/ltblue-dot.png" }}
                     name={'location 2'} />
-                <Marker position={{ lat: 28.64500917557668, lng: 77.28369897322511 }}
+
+                {Hmarks.map((item) => (<Marker position={item}
                     onClick={this.onMarkerClick}
-                    name={'location 3'} />
+                    icon={{ url: "http://maps.google.com/mapfiles/ms/micons/red-dot.png" }}
+                    name={'location 2'} />))}
+                {Omarks.map((item) => (<Marker position={item}
+                    onClick={this.onMarkerClick}
+                    icon={{ url: "http://maps.google.com/mapfiles/ms/micons/blue-dot.png" }}
+                    name={'location 2'} />))}
+                <Marker position={{ lat: 28.717, lng: 77.32 }}
+                    onClick={this.onMarkerClick}
+                    icon={{ url: "http://maps.google.com/mapfiles/ms/micons/orange-dot.png" }}
+                    name={'location 2'} />
+                <Polyline
+                    path={result}
+                    geodesic={true}
+                    options={{
+                        strokeColor: "white",
+                        strokeOpacity: 1,
+                        strokeWeight: 5,
+
+                    }}
+                />
+
             </Map>
         )
     }
