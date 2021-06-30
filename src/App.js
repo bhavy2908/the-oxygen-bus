@@ -25,9 +25,9 @@ class App extends Component {
     this.setState({
       num1: temp + 1
     });
-    if (this.state.num1 > 49) {
+    if (this.state.num1 > 8) {
       this.setState({
-        num1: 50
+        num1: 9
       })
     }
   };
@@ -36,9 +36,9 @@ class App extends Component {
     this.setState({
       num3: temp3 + 1
     });
-    if (this.state.num3 > 19) {
+    if (this.state.num3 > 8) {
       this.setState({
-        num3: 20
+        num3: 9
       })
     }
   };
@@ -55,7 +55,6 @@ class App extends Component {
     });
   };
   results = () => {
-    console.log('yes')
     this.setState({
       num6: this.state.num3 + this.state.num1
     });

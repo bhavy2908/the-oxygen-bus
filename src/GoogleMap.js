@@ -46,11 +46,45 @@ export class MapContainer extends Component {
     };
     TotalDis = (list) => {
         var distn = 0;
-        for (let i =0; i<this.props.z; i++){
-            distn += this.distance(list[i].lat, list[i+1].lat, list[i].lng, list[i+1].lng);
-            return distn 
-        } 
+        for (let i = 0; i < list.length - 1; i++) {
+            distn += this.distance(list[i].lat, list[i + 1].lat, list[i].lng, list[i + 1].lng);
+        }
+        return distn;
     };
+    
+
+    permutations = (arr) => {
+        if (arr.length <= 2) return arr.length === 2 ? [arr, [arr[1], arr[0]]] : arr;
+        return arr.reduce(
+            (acc, item, i) =>
+                acc.concat(
+                    this.permutations([...arr.slice(0, i), ...arr.slice(i + 1)]).map(val => [
+                        item,
+                        ...val,
+                    ])
+                ),  
+            []
+        );
+    };
+
+    shortestPath = (list, temp2 = [], first = { lat: 28.619319, lng: 77.100216 }, last = { lat: 28.717, lng: 77.32 }, finalDis = Number.MAX_SAFE_INTEGER, tempDis = 0, finalList = []) => {
+        for (let i = 0; i < list.length; i++) {
+            let temp = list[i]
+            temp2.push(first)
+            for (let j = 0; j < temp.length; j++){
+                temp2.push(temp[j])
+            }    
+            temp2.push(last) 
+            tempDis = this.TotalDis(temp2)
+            if (tempDis < finalDis){
+                finalDis = tempDis
+                finalList = temp2
+            }
+            temp2 = []      
+        }
+        return finalList
+    }
+
 
 
 
@@ -65,6 +99,7 @@ export class MapContainer extends Component {
         const temp2 = [{ lat: 28.660702, lng: 77.161045 }, { lat: 28.653164, lng: 77.229715 }, { lat: 28.659798, lng: 77.246143 }, { lat: 28.681354, lng: 77.248203 }, { lat: 28.632655, lng: 77.253817 }, { lat: 28.65, lng: 77.3 }, { lat: 28.6978, lng: 77.2 }, { lat: 28.62134, lng: 77.2098 }, { lat: 28.6333, lng: 77.3333 }, { lat: 28.6969, lng: 77.1 }, { lat: 28.725, lng: 77.32 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 }, { lat: 26, lng: 22 }, { lat: 24, lng: 22 }, { lat: 25, lng: 22 },]
         const result = [{ lat: 28.619319, lng: 77.100216 }]
         const temp3 = [{ lat: 28.717, lng: 77.32 }]
+        let permutedarrays = [];
         for (let i = 0; i < this.props.x; i++) {
             Hmarks[i] = temp[i];
         }
@@ -74,22 +109,20 @@ export class MapContainer extends Component {
         for (let i = 1; i < this.props.z - this.props.y + 1; i++) {
             result[i] = Hmarks[i - 1];
 
+        } 
+        let result2 = [];
+        for (let i = 0; i < result.length-1; i++) {
+            result2[i] = result[i+1];            
         }
-        var j = this.props.z - this.props.y
-        console.log(j)
-        for (let k = 0; k < this.props.z - this.props.x; k++) {
-            result[j + 1] = Omarks[k]
-            j++;
-        }
-        if (result[2]) {
-            console.log(this.TotalDis(result))
-        }
-               
-
         if (result[1]) {
-            result[this.props.z + 1] = temp3[0]
-            
+            result.push(temp3[0])
+            console.log("Total Distance Covered = " + this.TotalDis(result) + " Km")
         }
+        
+        if(this.props.z){
+            permutedarrays = this.permutations(result2)
+        }
+        const finalList = this.shortestPath(permutedarrays)
 
         return (
             <Map google={this.props.google}
@@ -116,7 +149,7 @@ export class MapContainer extends Component {
                     icon={{ url: "http://maps.google.com/mapfiles/ms/micons/orange-dot.png" }}
                     name={'location 2'} />
                 <Polyline
-                    path={result}
+                    path={finalList}
                     geodesic={true}
                     options={{
                         strokeColor: "white",
