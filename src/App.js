@@ -9,11 +9,11 @@ import LeftDiv from './leftDiv';
 
 class App extends Component {
   state = {
-    num1: 0,
-    num2: 0,
-    num3: 0,
-    num4: 0,
-    num5: 0,
+    num1: 9,
+    num2: 10,
+    num3: 4,
+    num4: 10,
+    num5: 50,
     num6: 0,
   }
   refreshPage = () => {
@@ -31,6 +31,17 @@ class App extends Component {
       })
     }
   };
+  handleInc2 = () => {
+    const temp = this.state.num2;
+    this.setState({
+      num2: temp + 1
+    });
+    if (this.state.num2 > 98) {
+      this.setState({
+        num2: 99
+      })
+    }
+  };
   handleInc3 = () => {
     const temp3 = this.state.num3;
     this.setState({
@@ -42,17 +53,82 @@ class App extends Component {
       })
     }
   };
+  handleInc4 = () => {
+    const temp = this.state.num4;
+    this.setState({
+      num4: temp + 1
+    });
+    if (this.state.num4 > 98) {
+      this.setState({
+        num4: 99
+      })
+    }
+  };
+  handleInc5 = () => {
+    const temp = this.state.num5;
+    this.setState({
+      num5: temp + 1
+    });
+    if (this.state.num5 > 98) {
+      this.setState({
+        num5: 99
+      })
+    }
+  };
   handleDec1 = () => {
     const temp11 = this.state.num1;
     this.setState({
       num1: temp11 - 1
     });
+    if (this.state.num1 < 1) {
+      this.setState({
+        num1: 0
+      })
+    }
+  };
+  handleDec2 = () => {
+    const temp11 = this.state.num2;
+    this.setState({
+      num2: temp11 - 1
+    });
+    if (this.state.num2 < 11) {
+      this.setState({
+        num2: 10
+      })
+    }
   };
   handleDec3 = () => {
     const temp33 = this.state.num3;
     this.setState({
       num3: temp33 - 1
     });
+    if (this.state.num3 < 1) {
+      this.setState({
+        num3: 0
+      })
+    }
+  };
+  handleDec4 = () => {
+    const temp11 = this.state.num4;
+    this.setState({
+      num4: temp11 - 1
+    });
+    if (this.state.num4 < 11) {
+      this.setState({
+        num4: 10
+      })
+    }
+  };
+  handleDec5 = () => {
+    const temp11 = this.state.num5;
+    this.setState({
+      num5: temp11 - 1
+    });
+    if (this.state.num5 < 11) {
+      this.setState({
+        num5: 10
+      })
+    }
   };
   results = () => {
     this.setState({
@@ -75,13 +151,13 @@ class App extends Component {
               <ul style={{ marginBottom: '0px', marginTop: 'auto' }}>
                 <li onClick={this.refreshPage} className="hbtn hb-fill-middle2-bg" style={{ marginRight: '10px', fontWeight: 'bolder' }}>Reset Markers</li>
                 <li href="https://github.com/bhavy2908/the-oxygen-bus" target="blank
-                  " className="hbtn hb-fill-middle2-bg" style={{ fontWeight: 'bolder' }}>View Code</li>
+                  " className="hbtn hb-fill-middle2-bg" style={{ fontWeight: 'bolder', marginRight: '10px' }}>View Code</li>
               </ul>
             </div>
           </nav>
-          <LeftDiv num1={this.state.num1} num3={this.state.num3} num6={this.state.num6} handleInc1={this.handleInc1} handleInc3={this.handleInc3} handleDec1={this.handleDec1} handleDec3={this.handleDec3} results={this.results} />
+          <LeftDiv num1={this.state.num1} num2={this.state.num2} num3={this.state.num3} num4={this.state.num4} num5={this.state.num5} num6={this.state.num6} handleInc1={this.handleInc1} handleInc2={this.handleInc2} handleInc3={this.handleInc3} handleInc4={this.handleInc4} handleInc5={this.handleInc5} handleDec1={this.handleDec1} handleDec2={this.handleDec2} handleDec3={this.handleDec3} handleDec3={this.handleDec3} handleDec4={this.handleDec4} handleDec5={this.handleDec5} results={this.results} />
           <div style={{ float: 'right', width: '79.75%', height: '90vh', marginTop: '5px' }}>
-            <GoogleMap style={{ width: '79.75%' }} x={this.state.num1} y={this.state.num3} z={this.state.num6} />
+            <GoogleMap style={{ width: '79.75%' }} num1={this.state.num1} num2={this.state.num2} num3={this.state.num3} num4={this.state.num4} num5={this.state.num5} num6={this.state.num6} />
           </div>
 
         </div>
