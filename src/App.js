@@ -1,8 +1,8 @@
 import './App.css';
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import GoogleMap from './GoogleMap';
 import LeftDiv from './leftDiv';
-
+import MyModal from './modal';
 
 
 
@@ -13,8 +13,9 @@ class App extends Component {
     num2: 10,
     num3: 4,
     num4: 10,
-    num5: 50,
+    num5: 10,
     num6: 0,
+    bool: false
   }
   refreshPage = () => {
     window.location.reload();
@@ -91,9 +92,9 @@ class App extends Component {
     this.setState({
       num2: temp11 - 1
     });
-    if (this.state.num2 < 11) {
+    if (this.state.num2 < 1) {
       this.setState({
-        num2: 10
+        num2: 0
       })
     }
   };
@@ -113,9 +114,9 @@ class App extends Component {
     this.setState({
       num4: temp11 - 1
     });
-    if (this.state.num4 < 11) {
+    if (this.state.num4 < 1) {
       this.setState({
-        num4: 10
+        num4: 0
       })
     }
   };
@@ -124,22 +125,44 @@ class App extends Component {
     this.setState({
       num5: temp11 - 1
     });
-    if (this.state.num5 < 11) {
+    if (this.state.num5 < 1) {
       this.setState({
-        num5: 10
+        num5: 0
       })
     }
   };
+
+
   results = () => {
-    this.setState({
-      num6: this.state.num3 + this.state.num1
-    });
+    if ((this.state.num1 * this.state.num2) > (this.state.num3 * this.state.num4) + this.state.num5) {
+      this.setState({
+        bool: true
+      });
+    }
+    else {
+
+      this.setState({
+        num6: this.state.num3 + this.state.num1
+      });
+    }
+    console.log("bool : " + this.state.bool)
   };
+
+  revertBool = () => {
+    this.setState({
+      bool: false
+    });
+  }
 
 
   render() {
+
+
+
     return (
+
       <React.Fragment>
+        <MyModal bool={this.state.bool} rb={this.revertBool} />
         <div>
           <style dangerouslySetInnerHTML={{ __html: "\n    #map {\n      height: 100%;\n    }\n  " }} />
           <nav className="navbar navbar-light" style={{ backgroundColor: 'white', paddingLeft: '50px' }}>
@@ -160,11 +183,15 @@ class App extends Component {
             <GoogleMap style={{ width: '79.75%' }} num1={this.state.num1} num2={this.state.num2} num3={this.state.num3} num4={this.state.num4} num5={this.state.num5} num6={this.state.num6} />
           </div>
 
+
+
+
         </div>
       </React.Fragment >
     );
   }
 }
+
 
 
 export default App;

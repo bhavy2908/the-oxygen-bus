@@ -36,7 +36,7 @@ const LeftDiv = ({ num1, num2, num3, num4, num5, num6, handleInc1, handleInc2, h
                     <a href="#"><img src="plus.png" onClick={handleInc4} alt="" style={{ right: '5px', bottom: '5px', width: '40px', marginLeft: '55px' }} /></a>
                 </div>
             </div>
-            <div className="value-box">Initial Capacity of The Oxygen Bus
+            <div className="value-box">Initial  Capacity of The Oxygen Bus
                 <div className="value">
                     <a href="#"><img src="minus.png" onClick={handleDec5} alt="" style={{ right: '5px', bottom: '5px', width: '40px', marginRight: '55px' }} /></a>
                     {num5}

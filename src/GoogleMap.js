@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Map, Marker, GoogleApiWrapper, Polyline, InfoWindow } from 'google-maps-react';
-
+import Modalz from './modal';
 
 export class MapContainer extends Component {
     state = {
@@ -8,6 +8,7 @@ export class MapContainer extends Component {
         activeMarker: {},
         selectedPlace: {},
         mapCenter: { lat: 28.669, lng: 77.2090 },
+        isOpen: true
     };
 
     onMarkerClick = (props, marker, e) =>
@@ -49,7 +50,7 @@ export class MapContainer extends Component {
         for (let i = 0; i < list.length - 1; i++) {
             distn += this.distance(list[i].lat, list[i + 1].lat, list[i].lng, list[i + 1].lng);
         }
-        return distn;
+        return distn
     };
 
 
@@ -86,169 +87,85 @@ export class MapContainer extends Component {
             temp2 = []
         }
         return finalList
-    }
+    };
 
-    Dijkstra = (num1, num2, num3, num4, num5, numtemp, start, end, Hlist, Olist, final = [], count = 0, tempDis1 = 0, tempDis2 = 0, maxDis1 = Number.MAX_SAFE_INTEGER, maxDis2 = Number.MAX_SAFE_INTEGER, value1, value2, multilist = [], templist = []) => {
-        if ((num5 + (this.props.num3 * num4)) >= num1 * num2) {
-            let x = num5 / num2
-            let stationsReq = ((num1 * num2) - num5) / num4
-            stationsReq = Math.ceil(stationsReq)
-            if (numtemp == 0) {
-                console.log('Stations Required = ' + stationsReq)
-                for (let i = 0; i < x + 1; i++) {
-                    final[i] = Hlist[i]
-                    count++
-                }
-                start = Hlist[count]
-                end = Hlist[count + 1]
+    shortestDis = (list, first, last, finalDis = Number.MAX_SAFE_INTEGER, tempDis = 0, finalList = [], temp2 = []) => {
+        for (let i = 0; i < list.length; i++) {
+            let temp = list[i]
+            temp2.push(first)
+            for (let j = 0; j < temp.length; j++) {
+                temp2.push(temp[j])
             }
-            if (stationsReq == 1) {
-                for (let i = 0; i < num3; i++) {
-                    if ((Olist[i] != start) && (Olist[i] != end)) {
-                        tempDis1 = this.distance(start.lat, Olist[i].lat, start.lng, Olist[i].lng)
-                        tempDis2 = this.distance(end.lat, Olist[i].lat, end.lng, Olist[i].lng)
-                        if (tempDis1 < tempDis2) {
-                            if (tempDis1 < maxDis1) {
-                                maxDis1 = tempDis1
-                                value1 = i
-                            }
-                        }
-                        else {
-                            if (tempDis2 < maxDis1) {
-                                maxDis1 = tempDis2
-                                value1 = i
-                            }
-                        }
-                    }
-                }
-                final.push(Olist[value1])
+            temp2.push(last)
+            tempDis = this.TotalDis(temp2)
+            if (tempDis < finalDis) {
+                finalDis = tempDis
+                finalList = temp2
             }
-            if (stationsReq == 2) {
-                for (let i = 0; i < num3; i++) {
-                    if ((Olist[i] != start) && (Olist[i] != end)) {
-                        tempDis1 = this.distance(start.lat, Olist[i].lat, start.lng, Olist[i].lng)
-                        tempDis2 = this.distance(end.lat, Olist[i].lat, end.lng, Olist[i].lng)
-
-                        if (tempDis1 < maxDis1) {
-                            maxDis1 = tempDis1
-                            value1 = i
-                        }
-                        else if (tempDis2 < maxDis2) {
-                            maxDis2 = tempDis2
-                            value2 = i
-                        }
-                    }
-
-                }
-                let tempz = value1
-                value1 = value2
-                value2 = tempz
-                let temzlist = [Hlist[count - 1], Olist[value2], Olist[value1], Hlist[count]]
-                let temzlist2 = [Hlist[count - 1], Olist[value1], Olist[value2], Hlist[count]]
-                if (this.TotalDis(temzlist) < this.TotalDis(temzlist2)) {
-                    let tempz2 = value2
-                    value2 = value1
-                    value1 = tempz2
-                }
-                final.push(Olist[value1])
-                final.push(Olist[value2])
-            }
-            if (stationsReq > 2 && stationsReq % 2 != 0) {
-                let temptemp = []
-                for (let j = 0; j < Math.floor(stationsReq / 2); j++) {
-                    for (let i = 0; i < Olist.length; i++) {
-                        if ((Olist[i] != start) && (Olist[i] != end)) {
-                            tempDis1 = this.distance(start.lat, Olist[i].lat, start.lng, Olist[i].lng)
-                            tempDis2 = this.distance(end.lat, Olist[i].lat, end.lng, Olist[i].lng)
-
-                            if (tempDis1 < maxDis1) {
-                                maxDis1 = tempDis1
-                                value1 = i
-                            }
-                            else if (tempDis2 < maxDis2) {
-                                maxDis2 = tempDis2
-                                value2 = i
-                            }
-                        }
-
-                    }
-
-                    let tempz = value1
-                    value1 = value2
-                    value2 = tempz
-                    let temzlist = [Hlist[count - 1], Olist[value2], Olist[value1], Hlist[count]]
-                    let temzlist2 = [Hlist[count - 1], Olist[value1], Olist[value2], Hlist[count]]
-                    if (this.TotalDis(temzlist) < this.TotalDis(temzlist2)) {
-                        let tempz2 = value2
-                        value2 = value1
-                        value1 = tempz2
-                    }
-                    temptemp.push(Olist[value1])
-                    temptemp.push(Olist[value2])
-                }
-            }
-            if (stationsReq > 2 && stationsReq % 2 == 0) {
-                console.log('Entered in if statement')
-                let temptemp = []
-                for (let j = 0; j < stationsReq / 2; j++) {
-                    console.log('1st for loop')
-                    for (let i = 0; i < Olist.length; i++) {
-                        if ((Olist[i].lat != start.lat) && (Olist[i].lat != end.lat)) {
-                            tempDis1 = this.distance(start.lat, Olist[i].lat, start.lng, Olist[i].lng)
-                            tempDis2 = this.distance(end.lat, Olist[i].lat, end.lng, Olist[i].lng)
-
-                            if (tempDis1 < maxDis1) {
-                                maxDis1 = tempDis1
-                                value1 = i
-                            }
-                            else if (tempDis2 < maxDis2) {
-                                maxDis2 = tempDis2
-                                value2 = i
-                            }
-                        }
-
-                    }
-                    
-
-                    let tempz = value1
-                    value1 = value2
-                    value2 = tempz
-                    let temzlist = [Hlist[count - 1], Olist[value2], Olist[value1], Hlist[count]]
-                    let temzlist2 = [Hlist[count - 1], Olist[value1], Olist[value2], Hlist[count]]
-                    if (this.TotalDis(temzlist) < this.TotalDis(temzlist2)) {
-                        let tempz2 = value2
-                        value2 = value1
-                        value1 = tempz2
-                    }
-                    start.lat = Olist[value1].lat
-                    start.lng = Olist[value1].lng
-                    end.lat = Olist[value2].lat
-                    end.lng = Olist[value2].lng
-                    temptemp.push(Olist[value1])
-                    temptemp.push(Olist[value2])
-                    console.log(temptemp)
-                }
-                console.log(final)
-                for (let i = 0; i < temptemp.length / 2; i += 2) {
-                    final.push(temptemp[i])
-                }
-                for (let i = temptemp.length; i < temptemp.length / 2; i -= 2) {
-                    final.push(temptemp[i])
-                }
-                console.log(final)
-
-            }
-            if (numtemp == 0) {
-
-                for (let i = 0; i < (Hlist.length - x - 1); i++) {
-                    final.push(Hlist[count])
-                    count++
-                }
-            }
-
-            return final
+            temp2 = []
         }
-    }
+        return finalList
+    };
+
+    Dijkstra = (Hospitals, Oxygen, result = []) => {
+        let NumH = this.props.num1
+        let CapH = this.props.num2
+        let NumO = this.props.num3
+        let CapO = this.props.num4
+        let CapBus = this.props.num5
+        if ((NumH * CapH) <= ((NumO * CapO) + CapBus)) {
+            let StationsReq = Math.floor(((NumH * CapH) - CapBus) / CapO)
+            console.log("Stations Required : " + StationsReq)
+            let initial = Math.floor(CapBus / CapH) + 1
+            for (let i = 0; i < initial - 1; i++) {
+                result.push(Hospitals[i])
+            }
+            let startend = [Hospitals[initial - 1], Hospitals[initial]]
+            console.log(startend)
+            let MinDis = Number.MAX_SAFE_INTEGER
+            let NodeValue = 99
+            let DisFromStart = 0
+            let DisFromEnd = 0
+            let TotalDis = 0
+            let temp = []
+            for (let j = 0; j < StationsReq; j++) {
+                for (let i = 0; i < Oxygen.length; i++) {
+                    if (temp.includes(Oxygen[i])) {
+                        console.log("pass")
+                    }
+                    else {
+                        DisFromStart = this.distance(startend[0].lat, Oxygen[i].lat, startend[0].lng, Oxygen[i].lng)
+                        DisFromEnd = this.distance(startend[1].lat, Oxygen[i].lat, startend[1].lng, Oxygen[i].lng)
+                        TotalDis = DisFromStart + DisFromEnd
+                        if (TotalDis < MinDis) {
+                            MinDis = TotalDis
+                            NodeValue = i
+                        }
+                    }
+                }
+                temp.push(Oxygen[NodeValue])
+                startend[0] = Oxygen[NodeValue]
+                MinDis = Number.MAX_SAFE_INTEGER
+            }
+            console.log(temp)
+            let perm = this.permutations(temp)
+            let temp2 = this.shortestDis(perm, Hospitals[initial - 1], Hospitals[initial])
+            console.log(temp2)
+            for (let i = 0; i < temp2.length; i++) {
+                result.push(temp2[i])
+            }
+            for (let i = initial + 1; i < Hospitals.length; i++) {
+                result.push(Hospitals[i])
+            }
+            console.log(result)
+            return result
+        }
+        else {
+            console.log("No Possible Solution")
+            return []
+        }
+    };
+
 
 
 
@@ -286,19 +203,19 @@ export class MapContainer extends Component {
         let finalList = []
         if (this.props.num6) {
             permutedarrays = this.permutations(result2)
-            console.log(permutedarrays)
             if (this.props.num5 >= (this.props.num1 * this.props.num2)) {
                 finalList = this.shortestPath(permutedarrays)
             }
             else {
                 const tempList = this.shortestPath(permutedarrays)
-                finalList = this.Dijkstra(this.props.num1, this.props.num2, this.props.num3, this.props.num4, this.props.num5, 0, [], [], tempList, Omarks)
+                finalList = this.Dijkstra(tempList, Omarks)
             }
         }
 
 
 
         return (
+            
             <Map google={this.props.google}
                 onClick={this.onMapClicked}
                 initialCenter={{ lat: this.state.mapCenter, lng: this.state.mapCenter }}
@@ -343,6 +260,7 @@ export class MapContainer extends Component {
                 />
 
             </Map>
+            
         )
     }
 }
