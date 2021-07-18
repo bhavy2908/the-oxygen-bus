@@ -9,11 +9,11 @@ import MyModal from './modal';
 
 class App extends Component {
   state = {
-    num1: 9,
+    num1: 6,
     num2: 10,
     num3: 4,
     num4: 10,
-    num5: 10,
+    num5: 20,
     num6: 0,
     bool: false
   }
