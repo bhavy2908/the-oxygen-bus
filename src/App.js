@@ -3,17 +3,18 @@ import React, { Component, useState, useEffect } from 'react';
 import GoogleMap from './GoogleMap';
 import LeftDiv from './leftDiv';
 import MyModal from './modal';
+import { Link } from 'react-router-dom';
 
 
 
 
 class App extends Component {
   state = {
-    num1: 6,
+    num1: 9,
     num2: 10,
-    num3: 4,
+    num3: 9,
     num4: 10,
-    num5: 20,
+    num5: 50,
     num6: 0,
     bool: false
   }
@@ -173,8 +174,10 @@ class App extends Component {
               </a>
               <ul style={{ marginBottom: '0px', marginTop: 'auto' }}>
                 <li onClick={this.refreshPage} className="hbtn hb-fill-middle2-bg" style={{ marginRight: '10px', fontWeight: 'bolder' }}>Reset Markers</li>
-                <li href="https://github.com/bhavy2908/the-oxygen-bus" target="blank
-                  " className="hbtn hb-fill-middle2-bg" style={{ fontWeight: 'bolder', marginRight: '10px' }}>View Code</li>
+
+                <Link to={{ pathname: "https://github.com/bhavy2908/the-oxygen-bus" }} target="_blank">
+                  <li className="hbtn hb-fill-middle2-bg" style={{ fontWeight: 'bolder', marginRight: '10px' }}>View Code</li>
+                </Link>
               </ul>
             </div>
           </nav>
@@ -191,7 +194,4 @@ class App extends Component {
     );
   }
 }
-
-
-
 export default App;

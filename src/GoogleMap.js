@@ -1,7 +1,5 @@
 import React, { Component, useState } from 'react';
 import { Map, Marker, GoogleApiWrapper, Polyline, InfoWindow } from 'google-maps-react';
-import Modalz from './modal';
-
 export class MapContainer extends Component {
     state = {
         showingInfoWindow: false,
@@ -235,7 +233,7 @@ export class MapContainer extends Component {
                 {Omarks.map((item) => (<Marker position={item}
                     onClick={this.onMarkerClick}
                     icon={{ url: "http://maps.google.com/mapfiles/ms/micons/blue-dot.png" }}
-                    name={'Availability : 0'} />))}
+                    name={'Availability : '+ this.props.num4} />))}
                 <Marker position={{ lat: 28.717, lng: 77.32 }}
                     onClick={this.onMarkerClick}
                     icon={{ url: "http://maps.google.com/mapfiles/ms/micons/orange-dot.png" }}
